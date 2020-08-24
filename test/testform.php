@@ -5,7 +5,7 @@ $labels = Array("身分證字號", "姓名", "用戶代號", "用戶代號確認
 $viewModal = [] ;
 
 foreach ($labels as $l){
-    $elements = (object) ["label" => $l, "value" => "test" ] ;
+    $elements = (object) ["label" => $l, "value" => NULL ] ;
     $viewModal[] = $elements ;
 }
 
