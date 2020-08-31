@@ -153,8 +153,9 @@ class Users extends Dbh {
         return $result;
     }
 
+    # Get account balance
     protected function getAccountBalance() {
-        $sql = "SELECT `account_balance` FROM `user_sessions`,`users`,`customers`,`accounts` 
+        $sql = "SELECT * FROM `user_sessions`,`users`,`customers`,`accounts` 
             WHERE (user_sessions.user_id = users.user_id) 
             AND (users.user_id = customers.user_id) 
             AND (customers.customer_id = accounts.customer_id) 
@@ -164,6 +165,46 @@ class Users extends Dbh {
 
         return $result;
     }
+
+
+    protected function getStatement() {
+
+    }
+
+    # Save money
+    protected function cashDeposit($data) {
+        
+        # More check condition =(
+
+        // if (!is_int($data->money) && $data->money > 0) {
+        //     return FALSE;
+        // }
+
+        $user = $this->getAccountBalance();
+        if (!$user) {
+            return FALSE;
+        }
+
+        $newBalance = $user['account_balance'] + $data->money ;
+        if (!$newBalance) {
+            return FALSE;
+        }
+
+        $sql = "UPDATE accounts SET account_balance = ? WHERE account_id = ? ";
+        $param = array($newBalance, $user['account_id']);
+        $this->insert($sql, $param);
+
+        # need new statement
+
+        # if anything workfine return TRUE
+        return TRUE;
+    }
+
+    # Take money money
+    protected function cashDraw () {
+
+    }
+
 }
 
 ?>

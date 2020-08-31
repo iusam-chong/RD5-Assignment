@@ -11,6 +11,10 @@ class Form {
 
     public $message;
 
+    public function setMoney($money) {
+        $this->money = $money;
+    }
+
     public function registerForm($userName,$userPasswd,$userPasswdConfrim,$customerName,$customerIdCard,$customerPhoneNum,$customerEmail) {
         $this->userName = $userName;
         $this->userPasswd = $userPasswd;

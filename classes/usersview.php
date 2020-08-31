@@ -57,8 +57,13 @@ class UsersView extends Users {
         require_once('./views/main.page.php');
     }
 
-    public function cashInPage() {
+    public function cashInPage($cash) {
         $this->title = "存款";
+
+        $this->errorMessage = "";
+        if (isset($cash->message)) {
+            $this->errorMessage = $cash->message;
+        }
         require_once('./views/cashin.page.php');
     }
 
