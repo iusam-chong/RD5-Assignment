@@ -166,9 +166,24 @@ class Users extends Dbh {
         return $result;
     }
 
-
+    # Get statement data 
     protected function getStatement() {
 
+        # Find a match from this session user and get account id 
+        $sql = "SELECT `account_id` FROM `user_sessions`, `users`, `customers`, `accounts` 
+                WHERE (user_sessions.user_id = users.user_id) 
+                AND (users.user_id = customers.user_id) 
+                AND (customers.customer_id = accounts.customer_id) 
+                AND (user_sessions.session_id = ?)";
+        $param = array(session_id());
+        $row = $this->select($sql, $param);
+
+        # Get all data from transactions from this user with codintion account_id
+        $sql = "SELECT * FROM transactions WHERE account_id = ?";
+        $param = array($row['account_id']);
+        $result = $this->selectAll($sql, $param);
+        
+        return $result ;
     }
 
     # Save money
@@ -186,7 +201,7 @@ class Users extends Dbh {
         }
 
         $newBalance = $user['account_balance'] + $data->money ;
-        if (!$newBalance) {
+        if ($newBalance < 0) {
             return FALSE;
         }
 
@@ -195,14 +210,37 @@ class Users extends Dbh {
         $this->insert($sql, $param);
 
         # need new statement
+        $sql = "INSERT INTO transactions (`account_id`,`transaction_type`,`transaction_value`) VALUES (?, ?, ?) ";
+        $param = array($user['account_id'], "CashDeposit", $data->money);
+        $this->insert($sql, $param);
 
         # if anything workfine return TRUE
         return TRUE;
     }
 
     # Take money money
-    protected function cashDraw () {
+    protected function cashDraw($data) {
 
+        $user = $this->getAccountBalance();
+        if (!$user) {
+            return FALSE;
+        }
+
+        $newBalance = $user['account_balance'] - $data->money ;
+        if ($newBalance < 0) {
+            return FALSE;
+        }
+
+        $sql = "UPDATE accounts SET account_balance = ? WHERE account_id = ? ";
+        $param = array($newBalance, $user['account_id']);
+        $this->insert($sql, $param);
+
+        # need new statement
+        $sql = "INSERT INTO transactions (`account_id`,`transaction_type`,`transaction_value`) VALUES (?, ?, ?) ";
+        $param = array($user['account_id'], "CashDraw", $data->money);
+        $this->insert($sql, $param);
+
+        return TRUE;
     }
 
 }

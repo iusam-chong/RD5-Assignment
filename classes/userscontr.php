@@ -42,6 +42,10 @@ class UsersContr extends Users {
         return $this->cashDeposit($cash) ? TRUE : FALSE ;
     }
 
+    public function cashOut($cash) {
+        return $this->cashDraw($cash) ? TRUE : FALSE ;
+    }
+
 }
 
 ?>

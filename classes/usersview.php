@@ -57,24 +57,28 @@ class UsersView extends Users {
         require_once('./views/main.page.php');
     }
 
-    public function cashInPage($cash) {
+    public function cashInPage() {
         $this->title = "存款";
 
-        $this->errorMessage = "";
-        if (isset($cash->message)) {
-            $this->errorMessage = $cash->message;
-        }
         require_once('./views/cashin.page.php');
     }
 
     public function cashOutPage() {
         $this->title = "提款";
+
         require_once('./views/cashout.page.php');
     }
 
     public function statementPage() {
         $this->title = "查看明細";
+
+        $statementData = $this->getStatement();
+        
         require_once('./views/statement.page.php');
+    }
+
+    public function transactionFailPage() {
+        require_once('./views/transactionfail.page.php');
     }
 }
 

@@ -20,11 +20,10 @@ if (isset($_POST['money'])) {
         header('location: main');
         exit();
     }
-    
-    $cash->errorMessage("系統出錯請稍後再試 =(");
+
 }
 
 $view = new UsersView();
-$view->cashInPage($cash);
+$view->cashInPage();
 
 ?>

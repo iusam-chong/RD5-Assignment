@@ -3,7 +3,7 @@
 class Dbh {
     private $host = "localhost";
     private $user = "root";
-    private $pwd = "";
+    private $pwd = "root";
     private $dbName = "Bank";
 
     protected function connect() {
@@ -27,6 +27,13 @@ class Dbh {
         $stmt->execute($param);
     }
 
+    protected function selectAll($query,$param) {
+        $stmt = $this->connect()->prepare($query);
+        $stmt->execute($param);
+
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }
 
 

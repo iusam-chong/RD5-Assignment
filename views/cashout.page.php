@@ -15,9 +15,8 @@ require_once('header.page.php');
                 <form method="post" action="">
                     <div class="form-group">
                         <label>輸入金額</label>
-                        <input maxlength="6" type="text" class="form-control" id="textInputValue" name="textInputValue" required="required" pattern="[0-9]{1,}">
+                        <input maxlength="6" type="text" class="form-control" id="textInputValue" name="money" required="required" pattern="[0-9]{1,}">
                     </div>
-                    <p class="form-text text-muted"><?php //$this->tips?></p>
                     <button type="submit" class="btn btn-primary" value="1">確認</button>
                 </form>
             <hr>
