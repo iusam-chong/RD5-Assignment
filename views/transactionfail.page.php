@@ -10,7 +10,7 @@ require_once('header.page.php');
     <div class="row h-75">
         <div class="col-sm-3"></div>
         <div class="col-sm-6 my-auto">
-            <h3>交易失敗：餘額不住</h3>
+            <h3>交易失敗：餘額不足</h3>
             <hr>
                 
                     
